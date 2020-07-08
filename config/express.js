@@ -31,7 +31,7 @@ const env = process.env.NODE_ENV || 'development';
  * Expose
  */
 
-module.exports = function(app, passport) {
+module.exports = function (app, passport) {
   app.use(helmet());
   app.use(requireHttps);
 
@@ -72,7 +72,7 @@ module.exports = function(app, passport) {
   app.set('view engine', 'pug');
 
   // expose package.json to views
-  app.use(function(req, res, next) {
+  app.use(function (req, res, next) {
     res.locals.pkg = pkg;
     res.locals.env = env;
     next();
@@ -83,7 +83,7 @@ module.exports = function(app, passport) {
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(upload.single('image'));
   app.use(
-    methodOverride(function(req) {
+    methodOverride(function (req) {
       if (req.body && typeof req.body === 'object' && '_method' in req.body) {
         // look in urlencoded POST bodies and delete it
         var method = req.body._method;
@@ -117,11 +117,11 @@ module.exports = function(app, passport) {
   // should be declared after session and flash
   app.use(helpers(pkg.name));
 
-  if (env !== 'test') {
+  if (env !== 'development') {
     app.use(csrf());
 
     // This could be moved to view-helpers :-)
-    app.use(function(req, res, next) {
+    app.use(function (req, res, next) {
       res.locals.csrf_token = req.csrfToken();
       res.locals.paginate = ultimatePagination.getPaginationModel;
       next();

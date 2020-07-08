@@ -1,0 +1,30 @@
+extends ../layouts/default
+
+block main
+  h1= title
+
+block content
+  - var action = '/user'
+  - action += user.isNew? '' : '/' + user.id
+  - action +=  '/slot'
+  .row
+    .col-md-8
+      form(method="post", action=action, enctype="multipart/form-data", role="form")
+
+        input(type="hidden", name="_csrf", value=csrf_token)
+
+        //- - if (!user.isNew)
+        //-   input(type="hidden", name="_method", value="PATCH")
+
+        .form-group
+          label(for='title') Time From
+          input.form-control#title(type='text', name="start", value=user.start, placeholder='Enter Start')
+
+          .form-group
+          label(for='title') Time End
+          input.form-control#title(type='text', name="end", value=user.end, placeholder='Enter End')
+
+         
+        button.btn.btn-primary(type='submit') Save
+        | &nbsp;
+        a.btn.btn-link(href='/user/slot', title="cancel") Cancel
